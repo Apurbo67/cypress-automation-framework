@@ -1,0 +1,33 @@
+// cypress/pages/LoginPage.js
+
+class LoginPage {
+
+  visit() {
+    cy.visit('https://www.saucedemo.com')
+  }
+
+  enterUsername(username) {
+    cy.get('[data-test="username"]').type(username)
+  }
+
+  enterPassword(password) {
+    cy.get('[data-test="password"]').type(password)
+  }
+
+  clickLogin() {
+    cy.get('[data-test="login-button"]').click()
+  }
+
+  getErrorMessage() {
+    return cy.get('[data-test="error"]')
+  }
+
+  login(username, password) {
+    this.enterUsername(username)
+    this.enterPassword(password)
+    this.clickLogin()
+  }
+
+}
+
+export default LoginPage

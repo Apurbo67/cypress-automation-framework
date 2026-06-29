@@ -1,26 +1,28 @@
+// cypress/e2e/login.cy.js
+
+import LoginPage from '../pages/LoginPage'
+
 describe('Saucedemo Login Tests', () => {
 
+  const loginPage = new LoginPage()
+
   beforeEach(() => {
-    cy.visit('https://www.saucedemo.com')
+    loginPage.visit()
   })
 
   it('should login with valid credentials', () => {
-    cy.get('[data-test="username"]').type('standard_user')
-    cy.get('[data-test="password"]').type('secret_sauce')
-    cy.get('[data-test="login-button"]').click()
+    loginPage.login('standard_user', 'secret_sauce')
     cy.url().should('include', '/inventory')
   })
 
   it('should show error with invalid credentials', () => {
-    cy.get('[data-test="username"]').type('wrong_user')
-    cy.get('[data-test="password"]').type('wrong_pass')
-    cy.get('[data-test="login-button"]').click()
-    cy.get('[data-test="error"]').should('be.visible')
+    loginPage.login('wrong_user', 'wrong_pass')
+    loginPage.getErrorMessage().should('be.visible')
   })
 
   it('should not allow empty login', () => {
-    cy.get('[data-test="login-button"]').click()
-    cy.get('[data-test="error"]').should('contain', 'Username is required')
+    loginPage.clickLogin()
+    loginPage.getErrorMessage().should('contain', 'Username is required')
   })
 
 })
